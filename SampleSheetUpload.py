@@ -41,7 +41,7 @@ error = '<img src="data:image/jpeg;base64,%s" width=25 hights=25>' % data_error
 data_warning = base64.b64encode(open('cgi-bin/warning.jpeg', 'rb').read()).decode('utf-8').replace('\n', '')
 warning = '<img src="data:image/jpeg;base64,%s" width=30 hights=30>' % data_warning
 
-def ShowMessage(self): #function for showing errors and warnings as string 
+def ShowMessage(self): #function for showing errors and warnings as strings 
 	for item in self:
 		messageString = "".join(self)
 	return messageString
