@@ -50,16 +50,22 @@ class SampleSheetLine:
        else:
            return True
 
-    # function that compare the Indices respectively SampleIDs in the same lane in different lines of the file;
-    # e.g. same Index but different SammpleID in the same lane will give a False
-    def CompareIndexInLane(self, otherSampleSheetLine):
+    # function that compare the Indices in the same lane in different lines of the file;
+    # same Indices but different SampleIDs in the same lane will give a False
+    def SameIndexInLane(self, otherSampleSheetLine):
         if ((self.Lane == otherSampleSheetLine.Lane) and \
-            (self.Index == otherSampleSheetLine.Index) and \
+            (self.Index == otherSampleSheetLine.Index)  and \
             (self.SampleID != otherSampleSheetLine.SampleID)):
             return False
-        elif ((self.Lane == otherSampleSheetLine.Lane) and \
-              (self.Index != otherSampleSheetLine.Index)  and \
-              (self.SampleID == otherSampleSheetLine.SampleID)):
+        else:
+            return True
+            
+    # function that compare the SampleIDs in the same lane in different lines of the file;
+    # same SampleID but different Index in the same lane will give a False        
+    def SameSampleIDInLane(self, otherSampleSheetLine):
+        if ((self.Lane == otherSampleSheetLine.Lane) and \
+            (self.Index != otherSampleSheetLine.Index)  and \
+            (self.SampleID == otherSampleSheetLine.SampleID)):
             return False
         else:
             return True
@@ -94,3 +100,5 @@ class SampleSheetLine:
             else:
                 return True
         return True
+           
+
