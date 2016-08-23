@@ -101,4 +101,3 @@ class SampleSheetLine:
                 return True
         return True
            
-

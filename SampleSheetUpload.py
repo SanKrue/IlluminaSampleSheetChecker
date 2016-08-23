@@ -6,7 +6,6 @@ import base64
 
 form = cgi.FieldStorage()
 
-
 # Get filename here
 fileitem = form['filename']
 
