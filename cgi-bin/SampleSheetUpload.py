@@ -3,6 +3,7 @@ from SampleSheetLine import SampleSheetLine
 import cgi, os
 import cgitb; cgitb.enable()
 import base64
+from collections import defaultdict
 
 form = cgi.FieldStorage()
 
@@ -68,21 +69,23 @@ if fileitem.filename:
 		length = len(sampleSheet)
 		
 		#we want to create an overview how many samples are in each lane and display the result in a small table at the beginning
-		countSamplesPerLane = []
+		#therefor we create a dictionary where each lane number is the key, which gets one value (the number of samples
+		#in this lane)
+		lanes = defaultdict(int)
 		for i in range(length):
-			if (len(countSamplesPerLane) < int(sampleSheet[i].Lane)):
-				countSamplesPerLane.append(1)
-			else:
-				countSamplesPerLane[int(sampleSheet[i].Lane)-1]+= 1
+			lanes[int(sampleSheet[i].Lane)] += 1
+		keys = list(lanes.keys())
+		values = list(lanes.values())
+		
 		# html style for creating the table with two rows 'lane' and 'no. samples' and as many columns as lanes
 		print("<style> table, td, th { padding: 5px; border: 1px solid black; border-collapse: collapse;} </style>")
 		print("<table> <caption><br><b>Number of samples in lane</b></caption>")
 		print("<tr><th>lane</th>")
-		for i in range(len(countSamplesPerLane)):
-			print ("<td>%i</td>" % (i+1))
+		for j in range(len(lanes)):
+			print ("<td>%i</td>" % (keys[j]))
 		print("</tr><tr><th>no. samples </th></th>")
-		for count in countSamplesPerLane:
-			print ("<td>%s</td>" % (count))
+		for j in range(len(lanes)):
+			print ("<td>%i</td>" % (values[j]))
 		print("</tr> </table>")
 		
 		#we create a counter and lists for each test, so we can append the specific error messages in one list
@@ -92,7 +95,7 @@ if fileitem.filename:
 		SameSampleIDInLaneTest = []
 		CompareSampleIDInLanesTest = []
 		HammingDistanceForIndicesTest = []
-		# two for-loops with i as first line number and j as second line number to compare each line one by one with another 			# line. It will increment the counter and append our defined warning or error message to the specific list, if the query 			# will get a false from the function defined in the SampleSheetLine class			
+		# two for-loops with i as first line number and j as second line number to compare each line one by one with another 				# line. It will increment the counter and append our defined warning or error message to the specific list, if the query 			# will get a false from the function defined in the SampleSheetLine class			
 		for i in range(length):
 			for j in range(i + 1, length):		
 				if not(sampleSheet[i].SearchForRedundancy(sampleSheet[j])):
