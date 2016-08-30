@@ -50,12 +50,7 @@ def ShowMessage(self): #function for showing errors and warnings as string
 	for item in self:
 		messageString = "".join(self)
 	return messageString
-	
-def CompareFCIDinNameandFile(FCID1,FCID2): # check, if the FCID in the filename and inside the file are identical
-	if (FCID1  != FCID2):
-		return False
-	else:
-		return True   
+	 
 
 # in case the file was successfully uploaded, the file would be proccess directly
 if fileitem.filename:
@@ -106,7 +101,8 @@ if fileitem.filename:
 		HammingDistanceForIndicesTest = []
 		# two for-loops with i as first line number and j as second line number to compare each line one by one with another 			   # line. It will increment the counter and append our defined warning or error message to the specific list, if the query 		# will get a false from the function defined in the SampleSheetLine class			
 		for i in range(length):
-			if not (CompareFCIDinNameandFile(FCID,str(sampleSheet[i].Fcid))): # checking FCID in filename and FCID inside the file in 																				  # each line
+#			if not (CompareFCIDinNameandFile(FCID,str(sampleSheet[i].Fcid))): # checking FCID in filename and FCID inside the file in 																				  # each line
+			if not (sampleSheet[i].CompareFCIDinNameandFile(FCID)):
 				counter +=1
 				FCIDMessage = "<p> FCID in filename: %s <br> FCID in file (line %s): %s </p>" % (FCID, str(i + 2), \
 								str(sampleSheet[i].Fcid))
