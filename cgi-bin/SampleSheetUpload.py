@@ -19,7 +19,9 @@ if fileitem.filename:
    open('/tmp/' + fn, 'wb').write(fileitem.file.read()) # open temporary folder and store a copy of the file in it
 
    message = 'The file "<b>' + fn + '</b>" was uploaded successfully'
-   	
+   nwe = os.path.splitext(fileitem.filename) #filename without extension (.csv), nwe is a tuple (root, ext)
+   name = nwe[0].split('-') #splits the filename (position 0 in the nwe tuple) after "-", name format: "Year-Month-Day-FCID"
+   FCID = name[3] 
    
 else:
    message = 'No file was uploaded'
@@ -32,9 +34,9 @@ Content-Type: text/html\n
    <p>%s</p>
 </body>
 </html>
-""" % (message,))
+""" % (message))
 
-#three icons for check, error and warning should be directly embeded in the file, so they should be encoded with base64
+# three icons for check, error and warning should be directly embeded in the file, so they should be encoded with base64
 data_check = base64.b64encode(open('cgi-bin/check.jpeg', 'rb').read()).decode('utf-8').replace('\n', '')
 check = '<img src="data:image/jpeg;base64,%s" width=30 hights=30>' % data_check
 
@@ -48,8 +50,13 @@ def ShowMessage(self): #function for showing errors and warnings as string
 	for item in self:
 		messageString = "".join(self)
 	return messageString
+	
+def CompareFCIDinNameandFile(FCID1,FCID2): # check, if the FCID in the filename and inside the file are identical
+	if (FCID1  != FCID2):
+		return False
+	else:
+		return True   
 
-  
 # in case the file was successfully uploaded, the file would be proccess directly
 if fileitem.filename:
 	with open('/tmp/' + fn, "r") as file:
@@ -68,15 +75,16 @@ if fileitem.filename:
 				
 		length = len(sampleSheet)
 		
-		#we want to create an overview how many samples are in each lane and display the result in a small table at the beginning
-		#therefor we create a dictionary where each lane number is the key, which gets one value (the number of samples
-		#in this lane)
+		# we want to create an overview how many samples are in each lane and display the result in a small table at the beginning
+		# therefor we create a dictionary where each lane number is the key, which gets one value (the number of samples
+		# in this lane)
 		lanes = defaultdict(int)
 		for i in range(length):
 			lanes[int(sampleSheet[i].Lane)] += 1
 		keys = list(lanes.keys())
 		values = list(lanes.values())
 		
+
 		# html style for creating the table with two rows 'lane' and 'no. samples' and as many columns as lanes
 		print("<style> table, td, th { padding: 5px; border: 1px solid black; border-collapse: collapse;} </style>")
 		print("<table> <caption><br><b>Number of samples in lane</b></caption>")
@@ -88,75 +96,85 @@ if fileitem.filename:
 			print ("<td>%i</td>" % (values[j]))
 		print("</tr> </table>")
 		
-		#we create a counter and lists for each test, so we can append the specific error messages in one list
+		# we create a counter and lists for each test, so we can append the specific error messages in one list
 		counter = 0
+		FCIDTest = []
 		RedundancyTest = []
 		SameIndexInLanesTest = []
 		SameSampleIDInLaneTest = []
 		CompareSampleIDInLanesTest = []
 		HammingDistanceForIndicesTest = []
-		# two for-loops with i as first line number and j as second line number to compare each line one by one with another 				# line. It will increment the counter and append our defined warning or error message to the specific list, if the query 			# will get a false from the function defined in the SampleSheetLine class			
+		# two for-loops with i as first line number and j as second line number to compare each line one by one with another 			   # line. It will increment the counter and append our defined warning or error message to the specific list, if the query 		# will get a false from the function defined in the SampleSheetLine class			
 		for i in range(length):
-			for j in range(i + 1, length):		
+			if not (CompareFCIDinNameandFile(FCID,str(sampleSheet[i].Fcid))): # checking FCID in filename and FCID inside the file in 																				  # each line
+				counter +=1
+				FCIDMessage = "<p> FCID in filename: %s <br> FCID in file (line %s): %s </p>" % (FCID, str(i + 2), \
+								str(sampleSheet[i].Fcid))
+				FCIDTest.append(FCIDMessage)
+			for j in range(i + 1, length): #starting with the compare line (i) one by one with another line (j) tests		
 				if not(sampleSheet[i].SearchForRedundancy(sampleSheet[j])):
 					counter +=1
 					RedundancyMessage = "<p> Redundancy in line %s and %s:<br>%s<br>%s</p>" % (str(i + 2), \
-									 str(j + 2), str(sampleSheet[i]), str(sampleSheet[j]),)
+									 str(j + 2), str(sampleSheet[i]), str(sampleSheet[j]))
 					RedundancyTest.append(RedundancyMessage)
 				if not(sampleSheet[i].SameIndexInLane(sampleSheet[j])):
 					counter +=1
 					SameIndexMessage = "<p> Same Index but different SampleIDs in line %s and %s:<br>%s<br>%s</p>" \
-    								      % (str(i + 2), str(j + 2), str(sampleSheet[i]), str(sampleSheet[j]),)
+    								      % (str(i + 2), str(j + 2), str(sampleSheet[i]), str(sampleSheet[j]))
 					SameIndexInLanesTest.append(SameIndexMessage)
 				if not(sampleSheet[i].SameSampleIDInLane(sampleSheet[j])):
 					counter +=1
 					SameSampleIDInLaneMessage = "<p> Same SampleID but different Indices in line %s and %s:<br>%s<br>%s</p>" \
-    								       % (str(i + 2), str(j + 2), str(sampleSheet[i]), str(sampleSheet[j]),)   
+    								       % (str(i + 2), str(j + 2), str(sampleSheet[i]), str(sampleSheet[j]))   
 					SameSampleIDInLaneTest.append(SameSampleIDInLaneMessage)
 				if not(sampleSheet[i].CompareSampleIDInLanes(sampleSheet[j])):
 					counter +=1
 					CompareSampleIDMessage = "<p> Same SampleID, but difference in another parameter. Line %s and %s:\
 											<br>%s<br>%s</p>" % (str(i + 2), str(j + 2), str(sampleSheet[i]), \
-											str(sampleSheet[j]),)
+											str(sampleSheet[j]))
 					CompareSampleIDInLanesTest.append(CompareSampleIDMessage)
 				if not(sampleSheet[i].HammingDistanceForIndices(sampleSheet[j])):
 					counter +=1
 					HammingDistanceMessage = "<p> Distance too small in line %s and %s:<br>%s<br>%s</p>" \
-								 		  % (str(i + 2), str(j + 2), str(sampleSheet[i]), str(sampleSheet[j]),)
+								 		  % (str(i + 2), str(j + 2), str(sampleSheet[i]), str(sampleSheet[j]))
 					HammingDistanceForIndicesTest.append(HammingDistanceMessage)
 					
 		if counter == 0: # if the counter is 0, everything is ok and the Successful Testing Messages will be shown
 			print("<head><h3><br>SampleSheetTest Result:</h3></head>")
-			print("<head><h4>%s Redundancy Test </h4></head>" % (check, ))
-			print("<head><h4>%s Matching Test for Index in same lane </h4></head>" % (check, ))
-			print("<head><h4>%s Matching Test for SampleIDs in same lane </h4></head>" % (check, ))
-			print("<head><h4>%s Matching Test for different lanes </h4></head>" % (check, ))
-			print("<head><h4>%s Hamming Distance Test for Indices </h4></head>" % (check, ))
+			print("<head><h4>%s FCID Name Test </h4></head>" % (check))
+			print("<head><h4>%s Redundancy Test </h4></head>" % (check))
+			print("<head><h4>%s Matching Test for Index in same lane </h4></head>" % (check))
+			print("<head><h4>%s Matching Test for SampleIDs in same lane </h4></head>" % (check))
+			print("<head><h4>%s Matching Test for different lanes </h4></head>" % (check))
+			print("<head><h4>%s Hamming Distance Test for Indices </h4></head>" % (check))
 		else: # if we had errors or warnings, a specific message will be shown to find the lane and entry with an error/warning
 			print("<head><h3><br>SampleSheetTest Result:</h3></head>")
-			if RedundancyTest != []:
-				print("<head><h4>%s Redundancy Test: </h4></head> %s" % (warning, ShowMessage(RedundancyTest),))
+			if FCIDTest != []:
+				print("<head><h4>%s FCID Name Test: </h4></head> %s" % (warning, ShowMessage(FCIDTest)))
 			else:
-				print("<head><h4>%s Redundancy Test </h4></head>" % (check, ))
+				print("<head><h4>%s FCID Name Test </h4></head>" % (check))			
+			if RedundancyTest != []:
+				print("<head><h4>%s Redundancy Test: </h4></head> %s" % (warning, ShowMessage(RedundancyTest)))
+			else:
+				print("<head><h4>%s Redundancy Test </h4></head>" % (check))
 			if SameIndexInLanesTest != []:
 				print ("<head><h4>%s Matching Test for Index in same lane: </h4></head> %s" %  \
-				(error, ShowMessage(SameIndexInLanesTest),))
+				(error, ShowMessage(SameIndexInLanesTest)))
 			else:
-				print("<head><h4>%s Matching Test for Index in same lane </h4></head>" % (check, ))
+				print("<head><h4>%s Matching Test for Index in same lane </h4></head>" % (check))
 			if SameSampleIDInLaneTest != []:
 				print ("<head><h4>%s Matching Test for SampleIDs in same lane: </h4></head> %s" % \
-				(error, ShowMessage(SameSampleIDInLaneTest),))
+				(error, ShowMessage(SameSampleIDInLaneTest)))
 			else:
-				print("<head><h4>%s Matching Test for SampleIDs in same lane </h4></head>" % (check, ))
+				print("<head><h4>%s Matching Test for SampleIDs in same lane </h4></head>" % (check))
 			if CompareSampleIDInLanesTest != []:
 				print ("<head><h4>%s Matching Test for different lanes: </h4></head> %s" % (error, \
-				ShowMessage(CompareSampleIDInLanesTest),))
+				ShowMessage(CompareSampleIDInLanesTest)))
 			else:
-				print("<head><h4>%s Matching Test for different lanes </h4></head>" % (check, ))
+				print("<head><h4>%s Matching Test for different lanes </h4></head>" % (check))
 			if HammingDistanceForIndicesTest != []:
 				print ("<head><h4>%s Hamming Distance Test for Indices:</h4></head> %s" % (warning, \
-				ShowMessage(HammingDistanceForIndicesTest),)) 
+				ShowMessage(HammingDistanceForIndicesTest))) 
 			else:
-				print("<head><h4>%s Hamming Distance Test for Indices </h4></head>" % (check, ))
+				print("<head><h4>%s Hamming Distance Test for Indices </h4></head>" % (check))
 
-					
