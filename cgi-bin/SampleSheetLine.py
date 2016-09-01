@@ -43,7 +43,7 @@ class SampleSheetLine:
 	def getSampleProject(self):
 		return self.SampleProject
 
-	# function that search for redundancy in the SampleSheet, which means lane,  SampleID and Index are the
+	# function that search for redundancy in the SampleSheet, which means lane, SampleID and Index are the
 	# same in two different lines of the file
 	def SearchForRedundancy(self, otherSampleSheetLine):
 	   if (self.Lane, self.SampleID, self.Index) == \
@@ -110,8 +110,9 @@ class SampleSheetLine:
 		else:
 			return True
 			
-	# mainfunction, read and process a HISeq SampleSheet
-	def ReadandProcessHISeq(self, FCID):
+	# main function, read and process a HISeq SampleSheet
+	def ReadandProcessHISeq(self, FCID): # parameters are the file (here represented as "self") and the FCID from the filename, 
+										 # which we get in our main skript 
 		sampleSheet = []
 		fwc = filter(lambda row: row[0] != '#', self)  # fcw = file without comments --> ignore lines which start with '#'
 		for item in fwc:  # for each line in file
@@ -129,14 +130,15 @@ class SampleSheetLine:
 		# we want to create an overview how many samples are in each lane and display the result in a small table at the beginning
 		# therefor we create a dictionary where each lane number is the key, which gets one value (the number of samples
 		# in this lane)
-		lanes = defaultdict(int)
+		lanes = defaultdict(int) # group a sequence of key-value pairs into a dictionary of ints, for every new key a function
+								 # in the datatyp "defaultdict" creates automatically an entry and returns an int (the value, 0) 
 		for i in range(length):
-			lanes[int(sampleSheet[i].Lane)] += 1
-		keys = list(lanes.keys())
-		values = list(lanes.values())
+			lanes[int(sampleSheet[i].Lane)] += 1 # for every entry with the same key (the Lanes), the value will be incremented
+		keys = list(lanes.keys()) # list of lane numbers
+		values = list(lanes.values()) # list of nnumber of samples
 		
 
-		# html style for creating the table with two rows 'lane' and 'no. samples' and as many columns as lanes
+		# html style for creating the table with two rows "lane" and "no. samples" and as many columns as lanes
 		print("<style> table, td, th { padding: 5px; border: 1px solid black; border-collapse: collapse;} </style>")
 		print("<table> <caption><br><b>Number of samples in lane</b></caption>")
 		print("<tr><th>lane</th>")
@@ -156,6 +158,7 @@ class SampleSheetLine:
 
 		data_warning = base64.b64encode(open('cgi-bin/warning.jpeg', 'rb').read()).decode('utf-8').replace('\n', '')
 		warning = '<img src="data:image/jpeg;base64,%s" width=30 hights=30>' % data_warning
+		
 		# we create a counter and lists for each test, so we can append the specific error messages in one list
 		counter = 0
 		FCIDTest = []
@@ -164,14 +167,14 @@ class SampleSheetLine:
 		SameSampleIDInLaneTest = []
 		CompareSampleIDInLanesTest = []
 		HammingDistanceForIndicesTest = []
-		# two for-loops with i as first line number and j as second line number to compare each line one by one with another 			   # line. It will increment the counter and append our defined warning or error message to the specific list, if the query 		# will get a false from the function defined in the SampleSheetLine class			
+		# two for-loops with i as first line number and j as second line number to compare each line one by one with another 			# line. It will increment the counter and append our defined warning or error message to the specific list, if the query 		    # will get a false from the function defined in the SampleSheetLine class			
 		for i in range(length):
 			if not (sampleSheet[i].CompareFCIDinNameandFile(FCID)): # checking FCID in filename and FCID inside the file in 																	# each line
 				counter +=1
 				FCIDMessage = "<p> FCID in filename: %s <br> FCID in file (line %s): %s </p>" % (FCID, str(i + 2), \
 								str(sampleSheet[i].Fcid))
 				FCIDTest.append(FCIDMessage)
-			for j in range(i + 1, length): #starting with the compare line (i) one by one with another line (j) tests		
+			for j in range(i + 1, length): # starting with the compare line (i) one by one with another line (j) tests		
 				if not(sampleSheet[i].SearchForRedundancy(sampleSheet[j])):
 					counter +=1
 					RedundancyMessage = "<p> Redundancy in line %s and %s:<br>%s<br>%s</p>" % (str(i + 2), \
