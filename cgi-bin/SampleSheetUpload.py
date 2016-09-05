@@ -22,7 +22,7 @@ if fileitem.filename:
 else:
    message = 'No file was uploaded'
    
-# printing our message for file uploading   
+# printing our message for file uploading in hmtl format 
 print ("""\
 Content-Type: text/html\n
 <html>
@@ -45,7 +45,7 @@ if fileitem.filename:
 			SampleSheetLine.ReadandProcessHISeq(file, FCID) # call the HISeq function for processing the HISeq SampleSheet, 
 															# the parameters are the "file" and the stored FCID 
 															# (which we need for the FCID name check)
-		elif firstrow.rstrip('\n') == "[Header]": # if the file is a MISeq SampleSheet, it starts with "[Header]"
+		elif firstrow.rstrip('\n')[0:8] == "[Header]": # if the file is a MISeq SampleSheet, it starts with "[Header]"
 			MISeqSampleSheetLine.ReadandProcessMISeq(file) # call the MISeq function for processing the MISeq SampleSheet
 		else:
 			print("<p> Not a HISeq or MISeq SampleSheet </p>") # in case there isn't "FCID" or "[Header]" found, the file is

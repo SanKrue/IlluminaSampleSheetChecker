@@ -192,7 +192,7 @@ class SampleSheetLine:
 					SameSampleIDInLaneTest.append(SameSampleIDInLaneMessage)
 				if not(sampleSheet[i].CompareSampleIDInLanes(sampleSheet[j])):
 					counter +=1
-					CompareSampleIDMessage = "<p> Same SampleID, but difference in another parameter. Line %s and %s:\
+					CompareSampleIDMessage = "<p> Same SampleID but difference in another parameter. Line %s and %s:\
 											<br>%s<br>%s</p>" % (str(i + 2), str(j + 2), str(sampleSheet[i]), \
 											str(sampleSheet[j]))
 					CompareSampleIDInLanesTest.append(CompareSampleIDMessage)
