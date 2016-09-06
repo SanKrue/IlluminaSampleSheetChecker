@@ -1,4 +1,4 @@
-# IlluminaSampleSheetChecker
+# SampleSheetChecker
 Checks HiSeq or MiSeq SampleSheets for errors (e.g. redundancy, duplications in indices or SampleIDs)
 
 ### Requirements
