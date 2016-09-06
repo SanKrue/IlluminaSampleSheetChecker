@@ -3,13 +3,13 @@
 print ("""
 <html>
 <head>
-<title>SampleSheet Test</title>
+<title>SampleSheet Checker</title>
 </head>
 <body>
-<H1>SampleSheet Test</H1>
+<head><H1>SampleSheet Checker</H1></head>
+	<p> Checks uploaded HiSeq or MiSeq SampleSheets for errors </p>
 <body>
-<form enctype="multipart/form-data" 
-                     action="SampleSheetUpload.py" method="post">
+<form enctype="multipart/form-data" action="SampleSheetUpload.py" method="post">
 <p>File: <input type="file" name="filename" accept=".csv"/></p>
 <p><input type="submit" value="Upload" /></p>
 </form>

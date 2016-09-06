@@ -167,7 +167,9 @@ class SampleSheetLine:
 		SameSampleIDInLaneTest = []
 		CompareSampleIDInLanesTest = []
 		HammingDistanceForIndicesTest = []
-		# two for-loops with i as first line number and j as second line number to compare each line one by one with another 			# line. It will increment the counter and append our defined warning or error message to the specific list, if the query 		    # will get a false from the function defined in the SampleSheetLine class			
+		# two for-loops with i as first line number and j as second line number to compare each line one by one with another line. 
+		# It will increment the counter and append our defined warning or error message to the specific list, if the query will 
+		# get a false from the function defined in the SampleSheetLine class			
 		for i in range(length):
 			if not (sampleSheet[i].CompareFCIDinNameandFile(FCID)): # checking FCID in filename and FCID inside the file in 																	# each line
 				counter +=1
@@ -203,15 +205,15 @@ class SampleSheetLine:
 					HammingDistanceForIndicesTest.append(HammingDistanceMessage)
 					
 		if counter == 0: # if the counter is 0, everything is ok and the Successful Testing Messages will be shown
-			print("<head><h3><br>SampleSheetTest Result:</h3></head>")
-			print("<head><h4>%s FCID Name Test </h4></head>" % (check))
-			print("<head><h4>%s Redundancy Test </h4></head>" % (check))
-			print("<head><h4>%s Matching Test for Index in same lane </h4></head>" % (check))
-			print("<head><h4>%s Matching Test for SampleIDs in same lane </h4></head>" % (check))
-			print("<head><h4>%s Matching Test for different lanes </h4></head>" % (check))
-			print("<head><h4>%s Hamming Distance Test for Indices </h4></head>" % (check))
+			print("<head><h3><br>SampleSheet Checker Result:</h3></head>")
+			print("<head><h4>%s FCID Name Test </h4></head>" % (check)) # CompareFCIDinNameandFile Test
+			print("<head><h4>%s Redundancy Test </h4></head>" % (check)) # SearchForRedundancy Test
+			print("<head><h4>%s Matching Test for Index in same lane </h4></head>" % (check)) # SameIndexInLane Test
+			print("<head><h4>%s Matching Test for SampleIDs in same lane </h4></head>" % (check)) # SameSampleIDInLane Test
+			print("<head><h4>%s Matching Test for different lanes </h4></head>" % (check)) # CompareSampleIDInLanes Test
+			print("<head><h4>%s Hamming Distance Test for Indices </h4></head>" % (check)) # HammingDistanceForIndices Test
 		else: # if we had errors or warnings, a specific message will be shown to find the lane and entry with an error/warning
-			print("<head><h3><br>SampleSheetTest Result:</h3></head>")
+			print("<head><h3><br>SampleSheet Checker Result:</h3></head>")
 			if FCIDTest != []:
 				print("<head><h4>%s FCID Name Test: </h4></head> %s" % (warning, "".join(FCIDTest)))
 			else:

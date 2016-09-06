@@ -236,7 +236,7 @@ class MISeqSampleSheetLine:
 						CompareSampleIDandIndexTest.append(CompareSampleIDandIndexMessage)
 						
 		if counter == 0: # if the counter is 0, everything is ok and the Successful Testing Messages will be shown
-			print("<head><h3><br>SampleSheetTest Result:</h3></head>")	
+			print("<head><h3><br>SampleSheet Checker Result:</h3></head>")	
 			print("<head><h4>%s Hamming Distance Test for Index </h4></head>" % (check)) # HammingDistance Test for index
 			print("<head><h4>%s Redundancy Test </h4></head>" % (check)) #Redundancy/Redundancy2 Test
 			if not sampleSheet[1].I7_index_ID == "":	
@@ -253,7 +253,7 @@ class MISeqSampleSheetLine:
 				
 			
 		else: # if we had errors or warnings, a specific message will be shown to find the lane and entry with an error/warning
-			print("<head><h3><br>SampleSheetTest Result:</h3></head>")
+			print("<head><h3><br>SampleSheet Checker Result:</h3></head>")
 			if HammingDistanceForindexTest != []:
 				print ("<head><h4>%s Hamming Distance Test for Index:</h4></head> %s" % (warning, \
 						"".join(HammingDistanceForindexTest))) 
