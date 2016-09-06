@@ -9,11 +9,9 @@ Installation of a version of Python 3.X
 2. Open a terminal window and switch to the directory where the cgi-bin folder is stored
 3. Now you have to make the files executable, therefor type: `chmod +x cgi-bin/*.py`
 4. Start a Python3 HTTP server with cgi tag in the directory, therefor type: `python3 -m http.server --cgi`
-
-   Note: the terminal window is now running the server and is not available for further interactions
+Note: the terminal window is now running the server and is not available for further interactions
 5. Now you can open your favorite web browser an go to `http://localhost:8000/cgi-bin/Upload.py`
-   
-   If you can't open the page, please check the port number in the terminal window (sometimes it is 8080) and your browser
+If you can't open the page, please check the port number in the terminal window (sometimes it is 8080) and your browser
 
 ##### To disconnect from server:
 Type `Ctrl+C` in the terminal window after you have done your work with the IlluminaSampleSheetChecker
