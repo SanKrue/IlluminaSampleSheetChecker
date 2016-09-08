@@ -2,7 +2,7 @@
 Checks HiSeq or MiSeq SampleSheets for errors (e.g. redundancy, duplications in indices or SampleIDs)
 
 ### Requirements
-Installation of a version of Python 3.X
+Installation of a version of Python 3
 
 ### Installation instructions
 1. Download the cgi-bin folder and store it in your favorite directory
