@@ -23,10 +23,10 @@ if fileitem.filename:
 else:
    message = 'No file was uploaded'
    
-# printing our message for file uploading in hmtl format 
-print ("""\
-Content-Type: text/html\n
+# printing our message for file uploading in hmtl format with bootstrap css style
+print ("""
 <html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <body>
    <p>%s</p>
 </body>
@@ -52,7 +52,7 @@ if fileitem.filename:
 		elif firstrow.rstrip('\n')[0:8] == "[Header]": # if the file is a MISeq SampleSheet, it starts with "[Header]"
 			MiSeqSampleSheetLine.ReadandProcessMiSeq(file) # call the MISeq function for processing the MISeq SampleSheet
 		else:
-			print("<p><h4>%s Not a HISeq or MISeq SampleSheet. </h4>First word in the file should be <b>FCID</b> \
-					(in a HiSeq SampleSheet) or <b>[Header]</b> (in a MiSeq SampleSheet) and not <b>%s</b>.</p>" % (error, firstrow)) 
-			# in case there isn't "FCID" or "[Header]" found, the file is not a HISeq or MISeq file
+			print("<div class=container><p><h4>%s Not a HISeq or MISeq SampleSheet. </h4>First word in the file should be  					   <b>FCID</b> (in a HiSeq SampleSheet) or <b>[Header]</b> (in a MiSeq SampleSheet)\
+				   and not <b>%s</b>.</p> </div>" % (error, firstrow)) # in case there isn't "FCID" or "[Header]" found,
+				    												   # the file is not a HISeq or MISeq file
 			
