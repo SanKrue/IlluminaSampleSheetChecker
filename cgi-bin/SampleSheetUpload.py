@@ -24,8 +24,7 @@ else:
    message = 'No file was uploaded'
    
 # printing our message for file uploading in hmtl format with bootstrap css style
-print ("""\
-Content-Type: text/html\n
+print ("""
 <html>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <body>
