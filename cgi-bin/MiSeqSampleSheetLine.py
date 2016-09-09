@@ -236,67 +236,74 @@ class MiSeqSampleSheetLine:
 						CompareSampleIDandIndexTest.append(CompareSampleIDandIndexMessage)
 						
 		if counter == 0: # if the counter is 0, everything is ok and the Successful Testing Messages will be shown
-			print("<head><h3><br>SampleSheet Checker Result:</h3></head>")	
-			print("<head><h4>%s Hamming Distance Test for Index </h4></head>" % (check)) # HammingDistance Test for index
-			print("<head><h4>%s Redundancy Test </h4></head>" % (check)) #Redundancy/Redundancy2 Test
+			# bootstrap css style for the entire output
+			print("<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css>")
+			print("<div class=container>")
+			print("<br><head><h3><strong>SampleSheet Checker Result:</strong></h3></head>")	
+			print("<br><head><h4>%s Hamming Distance Test for Index </h4></head>" % (check)) # HammingDistance Test for index
+			print("<br><head><h4>%s Redundancy Test </h4></head>" % (check)) # Redundancy/Redundancy2 Test
 			if not sampleSheet[1].I7_index_ID == "":	
-				print("<head><h4>%s Matching Test for Index </h4></head>" % (check)) #CompareIndex Test
+				print("<br><head><h4>%s Matching Test for Index </h4></head>" % (check)) # CompareIndex Test
 			else:
-				print("<head><h4>%s SampleID/Index Matching Test </h4></head>" % (check)) #CompareSampleIDandIndex Test
+				print("<br><head><h4>%s SampleID/Index Matching Test </h4></head>" % (check)) # CompareSampleIDandIndex Test
 			if not sampleSheet[i].index2 == None:
-				print("<head><h4>%s Hamming Distance Test for Index2 </h4></head>" % (check)) # HammingDistance Test for index2
+				print("<br><head><h4>%s Hamming Distance Test for Index2 </h4></head>" % (check)) # HammingDistance Test for 																									  # index2
 				if not sampleSheet[1].I5_index_ID == "":
-					print("<head><h4>%s Matching Test for Index2 </h4></head>" % (check)) #CompareIndex2 Test
+					print("<br><head><h4>%s Matching Test for Index2 </h4></head>" % (check)) # CompareIndex2 Test
 				else:
-					print("<head><h4>%s SampleID/Index2 Matching Test </h4></head>" % (check)) #CompareSampleIDandIndex2 Test 
+					print("<br><head><h4>%s SampleID/Index2 Matching Test </h4></head>" % (check)) # CompareSampleIDandIndex2 																									   # Test 
+			print("</div>")
 				
 				
 			
 		else: # if we had errors or warnings, a specific message will be shown to find the lane and entry with an error/warning
-			print("<head><h3><br>SampleSheet Checker Result:</h3></head>")
+			print("<div class=container>")
+			print("<br><head><h3><strong>SampleSheet Checker Result:</strong></h3></head>")
 			if HammingDistanceForindexTest != []:
-				print ("<head><h4>%s Hamming Distance Test for Index:</h4></head> %s" % (warning, \
+				print ("<br><head><h4>%s Hamming Distance Test for Index:</h4></head> %s" % (warning, \
 						"".join(HammingDistanceForindexTest))) 
 			else:
-					print("<head><h4>%s Hamming Distance Test for Index </h4></head>" % (check))
+					print("<br><head><h4>%s Hamming Distance Test for Index </h4></head>" % (check))
 			if not sampleSheet[1].I7_index_ID == "": # compare I7_index_IDs
 				if CompareIndexTest != []:
-					print ("<head><h4>%s Matching Test for Index: </h4></head> %s" % (error, "".join(CompareIndexTest)))
+					print ("<br><head><h4>%s Matching Test for Index: </h4></head> %s" % (error, "".join(CompareIndexTest)))
 				else:
-					print("<head><h4>%s Matching Test for Index </h4></head>" % (check))
+					print("<br><head><h4>%s Matching Test for Index </h4></head>" % (check))
 			else:
 				if CompareSampleIDandIndexTest != []: # compare Sample_IDs
-					print("<head><h4>%s SampleID/Index Matching Test: </h4></head> %s" % (error, \
+					print("<br><head><h4>%s SampleID/Index Matching Test: </h4></head> %s" % (error, \
 							  "".join(CompareSampleIDandIndexTest)))
 				else:
-					print("<head><h4>%s SampleID/Index Matching Test </h4></head>" % (check))
+					print("<br><head><h4>%s SampleID/Index Matching Test </h4></head>" % (check))
 			if not sampleSheet[i].index2 == None: # in case the MiSeq SampleSheet contains a second index
 				if RedundancyTest != []:
-					print("<head><h4>%s Redundancy Test: </h4></head> %s" % (warning, "".join(RedundancyTest)))
+					print("<br><head><h4>%s Redundancy Test: </h4></head> %s" % (warning, "".join(RedundancyTest)))
 				else:
-					print("<head><h4>%s Redundancy Test </h4></head>" % (check))
+					print("<br><head><h4>%s Redundancy Test </h4></head>" % (check))
 				if HammingDistanceForindex2Test != []:
-					print ("<head><h4>%s Hamming Distance Test for Index2:</h4></head> %s" % (warning, \
+					print ("<br><head><h4>%s Hamming Distance Test for Index2:</h4></head> %s" % (warning, \
 							"".join(HammingDistanceForindex2Test))) 
 				else:
-					print("<head><h4>%s Hamming Distance Test for Index2 </h4></head>" % (check))
+					print("<br><head><h4>%s Hamming Distance Test for Index2 </h4></head>" % (check))
 				if not sampleSheet[1].I5_index_ID == "": # compare I5_index_IDs
 					if CompareIndex2Test != []:
-						print ("<head><h4>%s Matching Test for Index2: </h4></head> %s" % \
+						print ("<br><head><h4>%s Matching Test for Index2: </h4></head> %s" % \
 							(error, "".join(CompareIndex2Test)))
 					else:
-						print("<head><h4>%s Matching Test for Index2 </h4></head>" % (check))
+						print("<br><head><h4>%s Matching Test for Index2 </h4></head>" % (check))
 				else: # compare Sample_IDs
 					if CompareSampleIDandIndex2Test != []:
-						print("<head><h4>%s SampleID/Index2 Matching Test: </h4></head> %s" % (error, \
+						print("<br><head><h4>%s SampleID/Index2 Matching Test: </h4></head> %s" % (error, \
 							  "".join(CompareSampleIDandIndex2Test)))
 					else:
-						print("<head><h4>%s SampleID/Index2 Matching Test </h4></head>" % (check))
+						print("<br><head><h4>%s SampleID/Index2 Matching Test </h4></head>" % (check))
 			else: # if the file contains only the first index, we use the Redundancy2 Test
 				if Redundancy2Test != []:
-					print("<head><h4>%s Redundancy Test: </h4></head> %s" % (warning, "".join(Redundancy2Test)))
+					print("<br><head><h4>%s Redundancy Test: </h4></head> %s" % (warning, "".join(Redundancy2Test)))
 				else:
-					print("<head><h4>%s Redundancy Test </h4></head>" % (check))
+					print("<br><head><h4>%s Redundancy Test </h4></head>" % (check))
+			print("</div>")
+			
 				
 
 
