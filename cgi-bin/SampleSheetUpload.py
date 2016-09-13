@@ -28,7 +28,9 @@ print ("""
 <html>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <body>
-   <p>%s</p>
+<div class=container>
+   <p><h4>%s</h4></p>
+</div>
 </body>
 </html>
 """ % (message))
@@ -46,10 +48,12 @@ if fileitem.filename:
 			name = nwe[0].split('-') # splits the filename (position 0 in the nwe tuple) after "-", 
 									 # name format: "Year-Month-Day-FCID"
 			FCID = name[3] # we need only the FCID, which is stored at position 3 in "name"
+			print("<div class=container><p><h4> Uploaded File: <strong>HiSeq</strong> sample sheet</h4></p> </div>")
 			HiSeqSampleSheetLine.ReadandProcessHiSeq(file, FCID) # call the HISeq function for processing the HISeq SampleSheet, 
 															# the parameters are the "file" and the stored FCID 
 															# (which we need for the FCID name check)
 		elif firstrow.rstrip('\n')[0:8] == "[Header]": # if the file is a MISeq SampleSheet, it starts with "[Header]"
+			print("<div class=container><p><h4> Uploaded File: <strong>MiSeq</strong> sample sheet </h4></p> </div>")
 			MiSeqSampleSheetLine.ReadandProcessMiSeq(file) # call the MISeq function for processing the MISeq SampleSheet
 		else:
 			print("<div class=container><p><h4>%s Not a HISeq or MISeq SampleSheet. </h4>First word in the file should be  					   <b>FCID</b> (in a HiSeq SampleSheet) or <b>[Header]</b> (in a MiSeq SampleSheet)\

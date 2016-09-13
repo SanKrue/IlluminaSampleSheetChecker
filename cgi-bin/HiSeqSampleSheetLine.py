@@ -137,9 +137,14 @@ class HiSeqSampleSheetLine:
 		keys = list(lanes.keys()) # list of lane numbers
 		values = list(lanes.values()) # list of nnumber of samples
 		
-
 		# bootstrap css style for the entire output
 		print("<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css>")
+		if (int(sampleSheet[i].Lane)) <3: # if the file is in rapid mode
+			print ("<div class=container>")
+			print ("<p><h4>File in <strong>rapid</strong> mode</h4></p> </div>")
+		else: # if the file is in normal mode
+			print ("<div class=container>")
+			print("<p><h4>File in <strong>normal</strong> mode</h4></p> </div>")	
 		# html style for creating the table with two rows "lane" and "no. samples" and as many columns as lanes
 		print("<div class=container>")
 		print("<style> table, td, th { padding: 5px; border: 1px solid black; border-collapse: collapse;} </style>")
@@ -213,7 +218,7 @@ class HiSeqSampleSheetLine:
 			print("<br><head><h4>%s Matching Test for Index in same lane </h4></head>" % (check)) # SameIndexInLane Test
 			print("<br><head><h4>%s Matching Test for SampleIDs in same lane </h4></head>" % (check)) # SameSampleIDInLane Test
 			print("<br><head><h4>%s Matching Test for different lanes </h4></head>" % (check)) # CompareSampleIDInLanes Test
-			print("<br><head><h4>%s Hamming Distance Test for Indices </h4></head>" % (check)) # HammingDistanceForIndices Test
+			print("<br><head><h4>%s Hamming Distance Test for Index </h4></head>" % (check)) # HammingDistanceForIndices Test
 			print("</div>")
 		else: # if we had errors or warnings, a specific message will be shown to find the lane and entry with an error/warning
 			print("<div class=container>")
@@ -242,10 +247,10 @@ class HiSeqSampleSheetLine:
 			else:
 				print("<br><head><h4>%s Matching Test for different lanes </h4></head>" % (check))
 			if HammingDistanceForIndicesTest != []:
-				print ("<br><head><h4>%s Hamming Distance Test for Indices:</h4></head> %s" % (warning, \
+				print ("<br><head><h4>%s Hamming Distance Test for Index:</h4></head> %s" % (warning, \
 				"".join(HammingDistanceForIndicesTest))) 
 			else:
-				print("<br><head><h4>%s Hamming Distance Test for Indices </h4></head>" % (check))
+				print("<br><head><h4>%s Hamming Distance Test for Index </h4></head>" % (check))
 				print("</div>")
 
 
