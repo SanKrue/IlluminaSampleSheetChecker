@@ -126,7 +126,6 @@ class HiSeqSampleSheetLine:
 				sampleSheet.append(sampleSheetLineElement)  # putting all objects in the created list "Sample Sheet"
 				
 		length = len(sampleSheet)
-		
 		# we want to create an overview how many samples are in each lane and display the result in a small table at the beginning
 		# therefor we create a dictionary where each lane number is the key, which gets one value (the number of samples
 		# in this lane)

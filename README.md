@@ -5,15 +5,17 @@ Checks HiSeq or MiSeq sample sheets for errors (e.g. redundancy, duplications in
 Installation of a version of Python 3
 
 ### Installation instructions
-1. Download the cgi-bin folder and store it in your favorite directory
-2. Open a terminal window and switch to the directory where the cgi-bin folder is stored
-3. Now you have to make the files executable, therefor type: `chmod +x cgi-bin/*.py`
-4. Start a Python 3 HTTP server with cgi tag in the directory, therefor type: `python3 -m http.server --cgi`  
+1. Download the zip folder with the green button, unzip and store it in your favorite directory (e.g. create a new folder    	"SampleSheetChecker")
+2. Open a terminal window (cmd) and switch to the directory where the cgi-bin folder is stored: `cd path/to/dir`
+   For **Linux only**: Now you have to make the files executable, therefor type: `chmod +x cgi-bin/*.py`
+3. Start a Python 3 HTTP server with cgi tag in the directory, therefor type:
+   For **Windows**: `path/to/python.exe -m http.server --cgi`
+   For **Linux**: `python3 -m http.server --cgi`  
    Note: the terminal window is now running the server and is not available for further interactions
-5. Now you can open your favorite web browser an go to `http://localhost:8000/cgi-bin/Upload.py`  
+4. Now you can open your favorite web browser an go to `http://localhost:8000/cgi-bin/Upload.py`  
    If you can't open the page, please check the port number in the terminal window (sometimes it is 8080) and change the number
    in your browser
-   
+
 ##### To disconnect from server:
 Type `Ctrl+C` in the terminal window after you have done your work with the SampleSheet Checker
 

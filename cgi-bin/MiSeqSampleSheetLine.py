@@ -155,6 +155,16 @@ class MiSeqSampleSheetLine:
 				
 		length = len(sampleSheet)
 		
+		# count samples in the sample sheet 
+		samples = 0
+		for i in range(length-1): # length-1, because in length is the header included
+			samples +=1
+		# bootstrap css style for the entire output
+		print("<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css>")
+		print("<div class=container>")
+		print("<p><h4>Number of samples in file: <strong>%i</strong> </h4></p>" % (samples))
+		print("</div>")
+		
 		# three icons for check, error and warning should be directly embeded in the file, so they should be encoded with base64
 		data_check = base64.b64encode(open('cgi-bin/check.jpeg', 'rb').read()).decode('utf-8').replace('\n', '')
 		check = '<img src="data:image/jpeg;base64,%s" width=30 hights=30>' % data_check
@@ -236,8 +246,6 @@ class MiSeqSampleSheetLine:
 						CompareSampleIDandIndexTest.append(CompareSampleIDandIndexMessage)
 						
 		if counter == 0: # if the counter is 0, everything is ok and the Successful Testing Messages will be shown
-			# bootstrap css style for the entire output
-			print("<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css>")
 			print("<div class=container>")
 			print("<br><head><h3><strong>SampleSheet Checker Result:</strong></h3></head>")	
 			print("<br><head><h4>%s Hamming Distance Test for Index </h4></head>" % (check)) # HammingDistance Test for index

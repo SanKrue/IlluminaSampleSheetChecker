@@ -4,9 +4,14 @@ from MiSeqSampleSheetLine import MiSeqSampleSheetLine
 import cgi, os
 import cgitb; cgitb.enable()
 import base64
+import tempfile
+import shutil
+
 
 form = cgi.FieldStorage()
 
+path = tempfile.gettempdir() # get the current temporary directory for any platform
+dirpath = (path + '/')
 
 # Get filename here
 fileitem = form['filename']
@@ -16,7 +21,7 @@ if fileitem.filename:
    # strip leading path from file name to avoid 
    # directory traversal attacks
    fn = os.path.basename(fileitem.filename)
-   open('/tmp/' + fn, 'wb').write(fileitem.file.read()) # open temporary folder and store a copy of the file in it
+   open(dirpath + fn, 'wb').write(fileitem.file.read()) # open temporary folder and store a copy of the file in it
 
    message = 'The file "<b>' + fn + '</b>" was uploaded successfully'
    
@@ -41,7 +46,7 @@ error = '<img src="data:image/jpeg;base64,%s" width=25 hights=25>' % data_error
 
 # in case the file was successfully uploaded, the file will be proccess directly
 if fileitem.filename:
-	with open('/tmp/' + fn, "r") as file: # open the file in the temporary folder as "file"
+	with open(dirpath + fn, "r") as file: # open the file in the temporary folder as "file"
 		firstrow = next(file) # store the first row in the variable "firstrow"
 		if firstrow[0:4] == "FCID": # if the file is a HISeq SampleSheet, it starts with "FCID,..."
 			nwe = os.path.splitext(fileitem.filename) # filename without extension (.csv), "nwe" is a tuple (root, ext)
