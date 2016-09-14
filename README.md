@@ -6,9 +6,9 @@ Installation of a version of Python 3
 
 ### Installation instructions
 1. Download the zip folder with the green button, unzip and store it in your favorite directory (e.g. create a new folder    	"SampleSheetChecker")
-2. Open a terminal window (cmd) and switch to the directory where the cgi-bin folder is stored: `cd path/to/dir`  
+2. Open a terminal window (Linux: `Ctrl` + `Alt` + `T`; Windows: `WinKey`, Input: "cmd", Click on cmd) and switch to the 		 	directory where the cgi-bin folder is stored: `cd path/to/dir`  
    For **Linux only**: Now you have to make the files executable, therefor type: `chmod +x cgi-bin/*.py`  
-3. Start a Python 3 HTTP server with cgi tag in the directory, therefor type:  
+3. Start a Python HTTP server with cgi tag in the directory, therefor type:  
    For **Windows**: `path/to/python.exe -m http.server --cgi`  
    For **Linux**: `python3 -m http.server --cgi`  
    Note: the terminal window is now running the server and is not available for further interactions
@@ -17,7 +17,7 @@ Installation of a version of Python 3
    in your browser
 
 ##### To disconnect from server:
-Type `Ctrl+C` in the terminal window after you have done your work with the SampleSheet Checker
+Type `Ctrl` + `C` in the terminal window after you have done your work with the SampleSheet Checker
 
 ### SampleSheet Checker Tests
 
@@ -47,12 +47,11 @@ Type `Ctrl+C` in the terminal window after you have done your work with the Samp
 - for a correct result the columns should be in the same order as in the examples in the Testfiles folder
 - the cgi-bin folder contains four *.py files  
   1. Upload.py for the CG Interface in the browser
-  2. SampleSheetUpload.py for uploading the file and store it in a temporary folder on the used computer; this file contains also 		 the function which checks the kind of sample sheets and call the relevant function for a HiSeq or MiSeq file
+  2. SampleSheetUpload.py for uploading the file and store it in an existing temporary folder on the used computer; this file 		 contains also the function which checks the kind of sample sheets and call the relevant function for a HiSeq or MiSeq file
   3. HiSeqSampleSheetLine.py for HiSeq sample sheets, with the class definition and all functions for a HiSeq sample sheet
   4. MiSeqSampleSheetLine.py for MiSeq sample sheets, with the class definition and all functions for a MiSeq sample sheet  
-- it is defined that a HiSeq sample sheet has "FCID" and a MiSeq sample sheet "\[Header]" as the first word in the first line;
-  if your sample sheets have different first words, you have to change this in SampleSheetUpload.py, because on the basis of this
-  words it will be decided which kind of file was uploaded
+- it is defined that a HiSeq sample sheet has "FCID" and a MiSeq sample sheet "\[Header]" as first word in first line;
+  if your sample sheets have different first words, you have to change this in SampleSheetUpload.py or in your file, because on   	the basis of this words it will be decided which kind of file was uploaded
 - in SampleSheetUpload.py it is also defined, that the relevant data of a MiSeq file begin after the word "\[Data]" (see the MiSeq
-  example in the Testfiles folder); if this is different in your MiSeq files, you have to change this also in the script
+  example in the Testfiles folder); if this is different in your MiSeq files, you have to change this also in the script or in 	  	your file
 
