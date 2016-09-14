@@ -6,10 +6,10 @@ Installation of a version of Python 3
 
 ### Installation instructions
 1. Download the zip folder with the green button, unzip and store it in your favorite directory (e.g. create a new folder    	"SampleSheetChecker")
-2. Open a terminal window (cmd) and switch to the directory where the cgi-bin folder is stored: `cd path/to/dir`
+2. Open a terminal window (cmd) and switch to the directory where the cgi-bin folder is stored: `cd path/to/dir` 
    For **Linux only**: Now you have to make the files executable, therefor type: `chmod +x cgi-bin/*.py`
-3. Start a Python 3 HTTP server with cgi tag in the directory, therefor type:
-   For **Windows**: `path/to/python.exe -m http.server --cgi`
+3. Start a Python 3 HTTP server with cgi tag in the directory, therefor type: 
+   For **Windows**: `path/to/python.exe -m http.server --cgi` 
    For **Linux**: `python3 -m http.server --cgi`  
    Note: the terminal window is now running the server and is not available for further interactions
 4. Now you can open your favorite web browser an go to `http://localhost:8000/cgi-bin/Upload.py`  
